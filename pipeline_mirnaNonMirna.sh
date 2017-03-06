@@ -1,17 +1,17 @@
 #!/bin/bash
 
 #path definitions
-SCRIPT_PATH=scripts/
+SCRIPT_PATH=./scripts/
 STEP_1_SCRIPT=$SCRIPT_PATH/create_train_test_datasets.py
-BASE_FOLDER=experiments/mirnaNonMirna/
-DAP_FOLDER=svmlin_dap
+BASE_FOLDER=./experiments/mirnaNonMirna/
+DAP_FOLDER=./svmlin_dap
 LLINEAR_T=$DAP_FOLDER/sklearn_liblinear_training.py
 LLINEAR_V=$DAP_FOLDER/sklearn_liblinear_validation.py
 RF_T=$DAP_FOLDER/sklearn_rf_training.py
 RF_V=$DAP_FOLDER/sklearn_rf_validation.py
 OUT1=$BASE_TEMP/out1
 
-BASE_TEMP=datasets/mirnaNonMirna/
+BASE_TEMP=./datasets/mirnaNonMirna/
 #define file variables	
 TEST_SAMPLES_BASE=$BASE_TEMP/train
 TEST_LABELS_BASE=$BASE_TEMP/train.labels
@@ -21,6 +21,8 @@ TEST_SAMPLES=$BASE_FOLDER/train
 TEST_LABELS=$BASE_FOLDER/train.labels
 VALIDATION_SAMPLES=$BASE_FOLDER/test
 VALIDATION_LABELS=$BASE_FOLDER/test.labels
+
+mkdir -p $BASE_FOLDER
 
 #start the run!
 echo "[+][+] --- Start to run, oh Forrest!"
@@ -40,7 +42,7 @@ echo "[+][+] --- Start to run, oh Forrest!"
     #llinear
 	echo '[+][+] --- Running LLinear-Test for ' 
     python $LLINEAR_T $LT_ARGS $TEST_SAMPLES $TEST_LABELS $BASE_FOLDER/$NAME/llinear
-    #llinear validation
+    llinear validation
     for fname in $BASE_FOLDER/$NAME/llinear/*.log
     do
         CONFIG_FILE=$fname
@@ -50,7 +52,7 @@ echo "[+][+] --- Start to run, oh Forrest!"
 	python $LLINEAR_V $LV_ARGS $CONFIG_FILE $VALIDATION_SAMPLES $BASE_FOLDER/$NAME/llinear/validation/
     NAME=rf
 	echo '[+][+] --- Running RF-Test for ' 
-	mkdir -p $BASE_FOLDER/$NAME/rf
+	mkdir -p $BASE_FOLDER/$NAME/rf/validation
     python $RF_T $RFT_ARGS $TEST_SAMPLES $TEST_LABELS $BASE_FOLDER/$NAME/rf
     for fname in $BASE_FOLDER/$NAME/rf/*.log
     do

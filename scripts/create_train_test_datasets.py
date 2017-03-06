@@ -28,6 +28,21 @@ cols.pop(cols.index('sequence_names'))
 res_tr = res_tr[['sequence_names']+cols]
 res_ts = res_ts[['sequence_names']+cols]
 res_tr = res_tr.fillna(0.0)
+#filtro le colonne, eliminando quelle che hanno un numero di 0 superiore al 20%
+for c in res_tr.columns:
+    if c == 'sequence_names':
+        continue
+    tot = len(res_tr[c])
+    not_0 = 0
+    for d in res_tr[c]:
+        if float(d) != 0.0:
+            not_0 += 1
+    if float(not_0)/float(tot) < 0.8:  
+        res_tr.drop(c,1, inplace=True)
+        res_ts.drop(c,1, inplace=True)
+        print "Dropped: "+c
+
+
 res_tr.to_csv(OUTPUT_PATH+'/train', sep="\t",header=True, index=False)
 res_ts = res_ts.fillna(0.0)
 res_ts.to_csv(OUTPUT_PATH+'/test', sep="\t",header=True, index=False)
