@@ -3,7 +3,7 @@ import os
 import pandas as pd ##python pandas is required, install it with pip
 
 ROOT= os.path.dirname(os.path.abspath(__file__))
-PATH= ROOT+'/../datasets/mirnaNonMirna/raw'    ##controllare
+PATH= ROOT+'/../datasets/mirnaNonMirna/preprocessed'    ##controllare
 OUTPUT_PATH = ROOT+'/../datasets/mirnaNonMirna/'   ##controllare
 invalid_list = []#['all_hominidae','Homo_Sapiens','all_hominidae_wohs']
 
